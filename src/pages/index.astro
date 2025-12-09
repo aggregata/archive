@@ -1,0 +1,80 @@
+---
+import '../styles/tailwind.css';
+import Glyph from '../assets/glyph.svg';
+import RssFeed from '../components/RssFeed.astro';
+---
+
+<html
+  lang="en"
+  class="bg-bg-default text-text-subtle scheme-light-dark"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
+    <title>Astro</title>
+  </head>
+  <body class="px-6 py-18">
+    <div class="mx-auto max-w-xl">
+      <header
+        class="from- from-bg-subtle mb-18 grid rounded-xl bg-linear-to-b to-transparent px-6 pt-6 pb-18 text-center"
+      >
+        <div class="bg-bg-default mx-auto mb-6 flex items-center gap-1 rounded-full border px-3">
+          <Glyph
+            width={16}
+            height={16}
+            aria-hidden="true"
+          />
+          <h1 class="text-text-default text-sm leading-8 font-medium">Archive of Aggregata</h1>
+        </div>
+
+        <h2 class="text-text-default mb-3 text-2xl font-medium">
+          We wrote about<br />current software and standards
+        </h2>
+        <p class="mb-6">
+          Aggregata was a platform for the web, applications, and machine learning, which discusses current trends and
+          topics.
+        </p>
+        <span class="text-xs font-medium">Aug 2022 — Dec 2025</span>
+      </header>
+      <main class="space-y-12">
+        <section class="">
+          <RssFeed url="http://localhost:4321/rss.xml" />
+        </section>
+      </main>
+      <footer class="mt-18">
+        <nav>
+          <ul class="flex flex-wrap justify-center gap-x-4">
+            <li>
+              <a
+                href="https://www.iubenda.com/privacy-policy/94574028"
+                target="_blank"
+              >
+                Imprint & Privacy
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.iubenda.com/privacy-policy/94574028/cookie-policy"
+                target="_blank"
+              >
+                Cookies
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

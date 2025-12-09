@@ -1,0 +1,71 @@
+---
+import { JSDOM } from 'jsdom';
+
+export interface Props {
+  url: string;
+}
+
+const props = Astro.props;
+
+let items: HTMLElement[] = [];
+
+const response = await fetch(props.url);
+
+if (!response.ok) {
+  throw new Error(`Failed to fetch RSS feed: ${response.status} ${response.statusText}`);
+}
+
+const data = await response.text();
+
+const dom = new JSDOM(data, { contentType: 'text/xml' });
+items = [...dom.window.document.querySelectorAll('item')] as HTMLElement[];
+
+const feed = [];
+
+for (const item of items) {
+  const link = item.querySelector('link')?.textContent;
+
+  if (!link?.includes('archive/aggregata/')) continue;
+
+  feed.push({
+    title: item.querySelector('title')?.textContent,
+    description: item.querySelector('description')?.textContent,
+    link: link,
+    pubDate: item.querySelector('pubDate')?.textContent,
+    content: item.querySelector('description')?.textContent,
+  });
+}
+
+feed.sort((a, b) => {
+  const dateA = a.pubDate ? new Date(a.pubDate).getTime() : 0;
+  const dateB = b.pubDate ? new Date(b.pubDate).getTime() : 0;
+
+  return dateB - dateA;
+});
+
+const formatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<ul class="space-y-6">
+  {
+    feed.map((item) => (
+      <li class="border-b pb-6">
+        <article>
+          <a
+            class="block space-y-1.5"
+            href={item.link}
+            target="_blank"
+          >
+            <h3 class="text-text-default text-xl font-medium">{item.title}</h3>
+            {item?.description && <p class="line-clamp-3">{item.description}</p>}
+            {item?.pubDate && <time class="text-sm tabular-nums">{formatter.format(new Date(item.pubDate))}</time>}
+          </a>
+        </article>
+      </li>
+    ))
+  }
+</ul>
