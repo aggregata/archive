@@ -2,6 +2,7 @@
 import '../styles/tailwind.css';
 import Glyph from '../assets/glyph.svg';
 import RssFeed from '../components/RssFeed.astro';
+import HeadMeta from '../components/HeadMeta.astro';
 ---
 
 <html
@@ -9,21 +10,12 @@ import RssFeed from '../components/RssFeed.astro';
   class="bg-bg-default text-text-subtle scheme-light-dark"
 >
   <head>
-    <meta charset="utf-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/favicon.svg"
+    <HeadMeta
+      metadata={{
+        title: 'Index',
+        description: 'We wrote about current software and standards.',
+      }}
     />
-    <meta
-      name="viewport"
-      content="width=device-width"
-    />
-    <meta
-      name="generator"
-      content={Astro.generator}
-    />
-    <title>Astro</title>
   </head>
   <body class="px-6 py-18">
     <div class="mx-auto max-w-xl">
@@ -50,7 +42,7 @@ import RssFeed from '../components/RssFeed.astro';
       </header>
       <main class="space-y-12">
         <section class="">
-          <RssFeed url="http://localhost:4321/rss.xml" />
+          <RssFeed url="https://jairusjoer.com/rss.xml" />
         </section>
       </main>
       <footer class="mt-18">
